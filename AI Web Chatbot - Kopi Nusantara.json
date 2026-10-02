@@ -1,0 +1,115 @@
+{
+  "name": "AI Web Chatbot - Kopi Nusantara",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Halo! \nSelamat datang di Web Kopi Nusantara. Ada yang bisa saya bantu hari ini?",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        64,
+        0
+      ],
+      "id": "abc9697b-c976-44ef-952a-ae33977a0a47",
+      "name": "When chat message received",
+      "webhookId": "1fff0bef-29e3-4217-a39e-4db78cdef7b1"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "## Peran\nAnda adalah Asisten AI Layanan Pelanggan resmi dari Toko \"Kopi Nusantara\". Tugas Anda adalah menjawab pertanyaan pelanggan secara ramah, sopan, dan informatif.\n\n## Informasi Toko\n- Menu & Harga: Espresso (Rp 18.000), Kopi Susu Gula Aren (Rp 22.000), Matcha Latte (Rp 25.000), Americano (Rp 20.000).\n- Jam Operasional: Setiap hari pukul 08.00 - 22.00 WIB.\n- Lokasi: Jl. Raya Nusantara No. 12, Jakarta.\n\n## Aturan / Batasan\n1. Gunakan bahasa Indonesia yang ramah, santun, dan sebutkan emoji secukupnya.\n2. Jika pertanyaan di luar topik kopi atau toko kami, jawablah secara sopan bahwa Anda hanya dapat membantu terkait informasi Kopi Nusantara.\n3. Jangan mengarang harga atau menu yang tidak ada di daftar atas."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        288,
+        0
+      ],
+      "id": "7b1267e6-0a84-46f5-a336-d373bf196351",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        240,
+        224
+      ],
+      "id": "d502ad62-fc71-4827-902d-fc0e2308514d",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "iZgm2uZVd7ZXJJkA",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        384,
+        224
+      ],
+      "id": "3cec6e42-cfcd-41d7-8b59-be13f3d0f281",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "85998f13-ef5b-40ed-85a4-43c14b92e77e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "dc96f10ae7dc95d3c138575ba243a0a167923dbcb524841d451aadf9135d5fb3"
+  },
+  "nodeGroups": [],
+  "id": "LCw2GgTrSXgMeo6O",
+  "tags": []
+}
